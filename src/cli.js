@@ -6,15 +6,21 @@ const CLI = async (CliPath, CliUser) => {
     let opened = true
     console.log("VirtualCLI 1.0.0 by pozlovatel_8787.")
     const rl = readline.createInterface({ input, output })
+    let TxT = ""
 
     while (opened) {
-        const command = await rl.question('>>> ')
+        const command = await rl.question(`${CliPath}@${CliUser}> `)
         if (command.split(" ")[0] === "cd") {
-            CliPath = command.split(" ")[1]
+            const oldPath = CliPath
+            CliPath = command.split(" ")[1].replace("./", `${oldPath}/`)
         } else if (command === "exit") {
             opened = false
         } else if (command.split(" ")[0] === "sudo") {
             console.error(new CliError("Superuser mode is not supported").message)
+        } else if (command.split(" ")[0] === "nano") {
+            TxT = await rl.question("1 ")
+        } else if (command.split(" ")[0] === "cat") {
+            console.log(TxT)
         } else {
             console.error(new CliError("Unknown command").message)
         }
