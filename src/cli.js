@@ -2,10 +2,10 @@ import * as readline from 'node:readline/promises';
 import { stdin as input, stdout as output } from 'node:process';
 import { CliError } from './errors.js';
 
-const CLI = async (CliPath, CliUser) => {
+const CLI = async (CliPath, CliUser, stdout = console, stdin = { input, output }, stdinUtil = readline) => {
     let opened = true
-    console.log("VirtualCLI 1.0.0 by pozlovatel_8787.")
-    const rl = readline.createInterface({ input, output })
+    stdout.log("VirtualCLI 1.0.0 by pozlovatel_8787.")
+    const rl = stdinUtil.createInterface(stdin)
     let TxT = ""
 
     while (opened) {
@@ -16,13 +16,14 @@ const CLI = async (CliPath, CliUser) => {
         } else if (command === "exit") {
             opened = false
         } else if (command.split(" ")[0] === "sudo") {
-            console.error(new CliError("Superuser mode is not supported").message)
+            stdout.error(new CliError("Superuser mode is not supported").message)
         } else if (command.split(" ")[0] === "nano") {
             TxT = await rl.question("1 ")
         } else if (command.split(" ")[0] === "cat") {
-            console.log(TxT)
+            stdout.log(TxT)
         } else {
-            console.error(new CliError("Unknown command").message)
+            const errorCli = new CliError("Unknown command")
+            stdout.error(errorCli.message)
         }
     }
     rl.close();
