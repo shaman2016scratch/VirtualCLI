@@ -8,6 +8,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "cli": "node scripts/cli.js"
+    "cli": "node scripts/cli.js",
+    "cli2": "node scripts/cli2.js"
   }
 }
