@@ -1,0 +1,13 @@
+{
+  "name": "virtualcli",
+  "version": "1.0.0",
+  "description": "",
+  "license": "GPL-3.0",
+  "author": "polzovatel_8787",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cli": "node scripts/cli.js"
+  }
+}
