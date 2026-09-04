@@ -23,10 +23,18 @@ const CLI = async (CliPath, CliUser, stdout = console, stdin = { input, output }
             } else if (command.split(" ")[0] === "cat") {
                 const TxT = await read(command.split(" ")[1])
                 stdout.log(TxT)
+            } else if (command.split(" ")[0] === "echo") {
+                stdout.log(command.replace(" ", "_space2").replaceAll(" ", "_space_").replace("_space2", " ").split(" ")[1].replaceAll("_space_", " ").replaceAll("\\n", "\n").replaceAll("\\t", "\t"))
+            } else if (command.split(" ")[0] === "curl") {
+                const response = await (await fetch(command.split(" ")[1])).text()
+                stdout.log(response)
             } else {
                 throw new CliError("Unknown command")
             }
         } catch (err) {
+            if (rl.closed) {
+                opened = false; break
+            }
             stdout.error(err.message)
         }
     }
