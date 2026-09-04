@@ -26,3 +26,8 @@ class WebInput {
 const WebVirtualCLI = (input) => {
     CLI("~", "User1234", logs, {}, { createInterface: () => { return new WebInput(input) } })
 }
+
+export {
+    WebInput,
+    WebVirtualCLI
+}
