@@ -4,6 +4,7 @@ import { CliError } from './errors.js';
 import { read } from './fs.js';
 
 const CLI = async (CliPath, CliUser, stdout = console, std = { input, output }, stdinUtil = readline) => {
+    CliPath = CliPath ? CliPath : process.cwd()
     let opened = true
     stdout.log("VirtualCLI 1.0.0 by pozlovatel_8787.")
     const rl = stdinUtil.createInterface(std)
@@ -13,7 +14,8 @@ const CLI = async (CliPath, CliUser, stdout = console, std = { input, output }, 
             const command = await rl.question(`${CliPath}@${CliUser}> `)
             if (command.split(" ")[0] === "cd") {
                 const oldPath = CliPath
-                CliPath = command.split(" ")[1].replace("./", `${oldPath}/`)
+                if (CliPath === process.cwd()) { process.chdir(command.split(" ")[1].replace("./", `${oldPath}/`)); CliPath = process.cwd() } else
+                    CliPath = command.split(" ")[1].replace("./", `${oldPath}/`)
             } else if (command === "exit") {
                 opened = false
             } else if (command.split(" ")[0] === "sudo") {
@@ -28,6 +30,10 @@ const CLI = async (CliPath, CliUser, stdout = console, std = { input, output }, 
             } else if (command.split(" ")[0] === "curl") {
                 const response = await (await fetch(command.split(" ")[1])).text()
                 stdout.log(response)
+            } else if (command.split(" ")[0] === "neofetch") {
+                stdout.log("NEOFETCH")
+                stdout.log(`OS: ${process.platform}`)
+                stdout.log(`CLI: VirtualCLi 1.0.0`)
             } else {
                 throw new CliError("Unknown command")
             }

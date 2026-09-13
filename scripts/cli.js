@@ -1,3 +1,3 @@
 import CLI from "../src/cli.js";
 
-CLI("~", "User1234")
+CLI(false, "User1234")
