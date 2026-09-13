@@ -3,10 +3,10 @@ import { stdin as input, stdout as output } from 'node:process';
 import { CliError } from './errors.js';
 import { read } from './fs.js';
 
-const CLI = async (CliPath, CliUser, stdout = console, stdin = { input, output }, stdinUtil = readline) => {
+const CLI = async (CliPath, CliUser, stdout = console, std = { input, output }, stdinUtil = readline) => {
     let opened = true
     stdout.log("VirtualCLI 1.0.0 by pozlovatel_8787.")
-    const rl = stdinUtil.createInterface(stdin)
+    const rl = stdinUtil.createInterface(std)
 
     while (opened) {
         try {
