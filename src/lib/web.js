@@ -10,7 +10,7 @@ class WebInput {
         const id = crypto.randomBytes(Math.floor(Math.random() * (64 - 32 + 1) + 32)).toString()
         window.isInputted = false
         this.input.innerHTML += `${text}<input type="text" id="input-id${id}"><button onclick="window.isInputted = true"></button><br>`
-        const generator = () => await new Promise(resolve => {
+        const generator = () => new Promise(resolve => {
             if (!window.isInputted) {
                 // ignore
             } else {
