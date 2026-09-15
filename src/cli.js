@@ -1,6 +1,6 @@
 import * as readline from 'node:readline/promises';
 import { stdin as input, stdout as output } from 'node:process';
-import { CliError } from './errors.js';
+import { CliError, PkgError } from './errors.js';
 import { read } from './fs.js';
 
 const CLI = async (CliPath, CliUser, stdout = console, std = { input, output }, stdinUtil = readline) => {
@@ -34,6 +34,16 @@ const CLI = async (CliPath, CliUser, stdout = console, std = { input, output }, 
                 stdout.log("NEOFETCH")
                 stdout.log(`OS: ${process.platform}`)
                 stdout.log(`CLI: VirtualCLi 1.0.0`)
+            } else if (command === "clipkg") {
+                stdout.log("Virtual CLI Package Manager")
+                stdout.log("Commands")
+                stdout.log("clipkg install [name] - install package")
+            } else if ([command.split(" ")[0], command.split(" ")[1]].join(" ") === "clipkg install") {
+                stdout.log("Search package...")
+                const registryPkg = "example.com"
+                const pkg = await fetch(`https://${registryPkg}/pkgs/${command.split(" ")[2]}/`)
+                if (pkg.status === 404) throw new PkgError("Package not found")
+                if (pkg.status === 403) throw new PkgError("No access")
             } else {
                 throw new CliError("Unknown command")
             }

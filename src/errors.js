@@ -9,6 +9,13 @@ class CliError extends Error {
     }
 }
 
+class PkgError extends Error {
+    constructor (error) {
+        super(`CliPkg Error: ${error}`)
+    }
+}
+
 export {
-    CliError
+    CliError,
+    PkgError
 }
