@@ -9,6 +9,7 @@ const CLI = async (CliPath, CliUser, stdout = console, std = { input, output }, 
     CliPath = CliPath ? CliPath : process.cwd()
     let opened = true
     stdout.log("VirtualCLI 1.0.0 by pozlovatel_8787.")
+    stdout.log("Enter 'help' for help")
     const rl = stdinUtil.createInterface(std)
 
     while (opened) {
@@ -51,6 +52,15 @@ const CLI = async (CliPath, CliUser, stdout = console, std = { input, output }, 
                 registryPkg = command.split(" ")[2]
             } else if ([command.split(" ")[0], command.split(" ")[1]].join(" ") === "clipkg registry") {
                 stdout.log(registryPkg)
+            } else if (command.split(" ")[0] === "help") {
+                stdout.log("help for VirtualVLI")
+                stdout.log("cd [path] - update path")
+                stdout.log("exit")
+                stdout.log("cat [path] - read file")
+                stdout.log("echo [text]")
+                stdout.log("curl [url]")
+                stdout.log("neofetch")
+                stdout.log("clipkg - package manager")
             } else {
                 throw new CliError("Unknown command")
             }
