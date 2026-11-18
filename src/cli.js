@@ -1,5 +1,6 @@
 import * as readline from 'node:readline/promises';
 import { stdin as input, stdout as output } from 'node:process';
+import os from "node:os"
 import { CliError, PkgError } from './errors.js';
 import { read } from './fs.js';
 
@@ -7,6 +8,7 @@ let registryPkg = "https://example.com"
 
 const CLI = async (CliPath, CliUser, stdout = console, std = { input, output }, stdinUtil = readline) => {
     CliPath = CliPath ? CliPath : process.cwd()
+    CliUser = CliUser ? CliUser : os.userInfo().username
     let opened = true
     stdout.log("VirtualCLI 1.0.0 by pozlovatel_8787.")
     stdout.log("Enter 'help' for help")
@@ -35,7 +37,10 @@ const CLI = async (CliPath, CliUser, stdout = console, std = { input, output }, 
                 stdout.log(response)
             } else if (command.split(" ")[0] === "neofetch") {
                 stdout.log("NEOFETCH")
-                stdout.log(`OS: ${process.platform}`)
+                stdout.log(`Plarform: ${process.platform}`)
+                stdout.log(`OS: ${os.type} ${os.release}`)
+                stdout.log(`Architecture: ${os.arch}`)
+                stdout.log(`Host: ${os.hostname}`)
                 stdout.log(`CLI: VirtualCLi 1.0.0`)
             } else if (command === "clipkg") {
                 stdout.log("Virtual CLI Package Manager")
