@@ -3,6 +3,8 @@ import { stdin as input, stdout as output } from 'node:process';
 import { CliError, PkgError } from './errors.js';
 import { read } from './fs.js';
 
+let registryPkg = "https://example.com"
+
 const CLI = async (CliPath, CliUser, stdout = console, std = { input, output }, stdinUtil = readline) => {
     CliPath = CliPath ? CliPath : process.cwd()
     let opened = true
@@ -38,12 +40,17 @@ const CLI = async (CliPath, CliUser, stdout = console, std = { input, output }, 
                 stdout.log("Virtual CLI Package Manager")
                 stdout.log("Commands")
                 stdout.log("clipkg install [name] - install package")
+                stdout.log("clipkg registry - get registry")
+                stdout.log("clipkg registry-set [url] - set registry")
             } else if ([command.split(" ")[0], command.split(" ")[1]].join(" ") === "clipkg install") {
                 stdout.log("Search package...")
-                const registryPkg = "example.com"
                 const pkg = await fetch(`https://${registryPkg}/pkgs/${command.split(" ")[2]}/`)
                 if (pkg.status === 404) throw new PkgError("Package not found")
                 if (pkg.status === 403) throw new PkgError("No access")
+            } else if ([command.split(" ")[0], command.split(" ")[1]].join(" ") === "clipkg registry-set") {
+                registryPkg = command.split(" ")[2]
+            } else if ([command.split(" ")[0], command.split(" ")[1]].join(" ") === "clipkg registry") {
+                stdout.log(registryPkg)
             } else {
                 throw new CliError("Unknown command")
             }
